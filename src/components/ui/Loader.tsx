@@ -3,7 +3,7 @@ function Loader() {
 
   return (
     <YStack background="$white" padding="$3" alignItems="center">
-      <Spinner size="large" color="$orange10" />
+      <Spinner size="large" color="$green10" />
     </YStack>
   );
 }

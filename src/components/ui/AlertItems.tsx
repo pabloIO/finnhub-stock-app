@@ -1,5 +1,6 @@
-import { H3, ListItem, YGroup } from 'tamagui';
+import { Text, Button, ListItem, YGroup, XStack, YStack } from 'tamagui';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { useAppContext } from 'src/context/app-context';
 
 type AlertItemsProps = {
     trade: string;
@@ -7,6 +8,8 @@ type AlertItemsProps = {
 }
 
 function AlertItems({trade, alerts}: AlertItemsProps){
+
+    const { removePriceAlert } = useAppContext();
 
     if (alerts === undefined){
         return;
@@ -17,11 +20,22 @@ function AlertItems({trade, alerts}: AlertItemsProps){
         {
             alerts?.map((alert, index) => (
                 <YGroup.Item key={index}>
-                    <ListItem 
-                        hoverTheme 
-                        icon={<FontAwesome name='dollar' />} 
-                        title={trade} 
-                        subTitle={`Target price: ${alert.targetPrice.toString()}`} />
+                    <ListItem hoverTheme>
+                        <XStack gap='$14'>
+                            <YStack>
+                                <Text fontSize={'$5'}>{trade}</Text>
+                                <Text fontSize={'$3'}>Target price: {alert.targetPrice}</Text>
+                            </YStack>
+                            <Button 
+                                borderRadius={'$10'} 
+                                alignSelf='center' 
+                                backgroundColor='$red10Light'
+                                icon={<FontAwesome name='trash' color='white' size={20}/>} 
+                                size='$2.5'
+                                onPress={() => removePriceAlert(trade, alert.targetPrice)}
+                            />
+                        </XStack>
+                    </ListItem>
                 </YGroup.Item>
             ))
         }

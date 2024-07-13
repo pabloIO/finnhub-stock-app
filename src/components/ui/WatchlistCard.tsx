@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Card, H6, Paragraph, H5, XStack, H4, Button } from 'tamagui';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import type { CardProps } from 'tamagui';
@@ -61,4 +62,4 @@ function WatchlistCard(props : WatchlistCardProps){
   );
 }
 
-export default WatchlistCard;
+export default memo(WatchlistCard);

@@ -1,17 +1,13 @@
 import type { Stocks } from "@models/watchlist";
 
 // THE PREVIOUS CLOSING AND OPENING PRICES ARE TAKEN FROM YAHOO FINANCE
-// ON DATE 12th JULY
+// ON DATE 13th JULY
 export const initialWatchlist: Stocks = {
     'AMZN': {
         price: 194.51,
         previousClose: 195.05,
         chartData: [],
     },
-    // 'BINANCE:BTCUSDT': {
-    //     price: 0,
-    //     previousClose: 195.26,
-    // },
     'APPL': {
         price: 229.0,
         previousClose: 227.57,
@@ -22,36 +18,42 @@ export const initialWatchlist: Stocks = {
         previousClose: 454.70,
         chartData: [],
     },
-    'BTC/USD': {
-        price: 57341.20,
-        previousClose: 57341.195,
+    'TSLA': {
+        price: 235.73,
+        previousClose: 241.03,
         chartData: [],
     },
-    'ETH/USD': {
-        price: 3099.99,
-        previousClose: 3099.99,
+    'NVDA': {
+        price: 128.26,
+        previousClose: 127.40,
         chartData: [],
     },
-    'EUR/USD': {
-        price: 1.0871,
-        previousClose: 1.0870,
+    'GOOG': {
+        price: 186.90,
+        previousClose: 187.30,
         chartData: [],
     },
-    'GBP/USD': {
-        price: 1.2914,
-        previousClose: 1.2914,
+    'META': {
+        price: 497.76,
+        previousClose: 512.70,
         chartData: [],
-    }
+    },
+    'BINANCE:BTCUSDT': {
+        price: 58621.99,
+        previousClose: 58621.99,
+        chartData: []
+    },
+
 };
 
 // Symbols that will be tracked in the app
 export const symbolsToSubscribe: string[] = [
-    'BINANCE:BTCUSDT',
     'APPL',
     'AMZN',
-    'BTC/USD',
-    'ETH/USD',
-    'EUR/USD',
-    'GBP/USD',
-    'MSFT'
+    'MSFT',
+    'TSLA',
+    'NVDA',
+    'GOOG',
+    'META',
+    'BINANCE:BTCUSDT'
 ];

@@ -1,7 +1,9 @@
-import { createContext, useState, useEffect, useRef, useContext } from "react";
-import type { ReactNode } from "react";
-import { initialWatchlist, symbolsToSubscribe } from "@data/watchlist";
-import type { Stocks } from "@models/watchlist";
+import { createContext, useState, useEffect, useRef, useContext } from 'react';
+import type { ReactNode } from 'react';
+import { initialWatchlist, symbolsToSubscribe } from '@data/watchlist';
+import type { Stocks } from '@models/watchlist';
+import * as Notifications from 'expo-notifications';
+import type { Notification } from 'expo-notifications';
 
 type AppProviderProps = {
     children: ReactNode;
@@ -9,20 +11,22 @@ type AppProviderProps = {
 
 type AppContextValue = {
     isReady: boolean;
-    send: any;
     watchlist: Stocks;
+    receiveNotifications: boolean;
     addPriceAlert: (trade: string, targetPrice: number) => void;
+    removePriceAlert: (trade: string, targetPrice: number) => void;
+    handleReceiveNotifications: () => void;
 };
 
 
 export function useAppContext() {
-    const timersCtx = useContext(AppContext);
+    const ctx = useContext(AppContext);
 
-    if (timersCtx === null){
+    if (ctx === null){
         throw new Error('TimersContext is null -- that should not happen');
     }
     
-    return timersCtx;
+    return ctx;
 }
 
 export const AppContext = createContext<AppContextValue | null>(null);
@@ -32,12 +36,15 @@ export const AppProvider = ({
 }: AppProviderProps) => {
 
     const [isReady, setIsReady] = useState<boolean>(false);
+    const [receiveNotifications, setReceiveNotifications] = useState<boolean>(false);
     const [watchlist, setWatchlist] = useState<Stocks>(initialWatchlist);
+    const maxChartDataLength: number = 99;
 
     const ws = useRef<WebSocket | null>(null);
+    // const wsUrl = 
+    //     `${process.env.EXPO_PUBLIC_FINNHUB_WSS_URL}?token=${process.env.EXPO_PUBLIC_FINNHUB_API_KEY}`;
     const wsUrl = 
-        `${process.env.EXPO_PUBLIC_FINNHUB_WSS_URL}?token=${process.env.EXPO_PUBLIC_FINNHUB_API_KEY}`;
-    
+        `${'wss://ws.finnhub.io'}?token=${'cq84o09r01qr5j08ml4gcq84o09r01qr5j08ml50'}`;
     useEffect(() => {
         const socket = new WebSocket(wsUrl);
 
@@ -61,16 +68,82 @@ export const AppProvider = ({
         }
     }, []);
 
+    useEffect(() => {
+        if(receiveNotifications){
+           requestNotificationPermissionsasync();
+            const listener = Notifications.addNotificationReceivedListener(handleNotification);
+            return () => listener.remove();
+        }
+    }, [receiveNotifications])
+
+    async function requestNotificationPermissionsasync (){
+        await Notifications.requestPermissionsAsync();
+    }
+
+    function scheduleNotification(title: string, body: string){
+        const schedulingOptions = {
+          content: {
+            title: title,
+            body: body,
+            sound: true,
+            priority: Notifications.AndroidNotificationPriority.HIGH,
+            color: 'blue',
+          },
+          trigger: {
+            seconds: 3,
+          },
+        };
+        Notifications.scheduleNotificationAsync(schedulingOptions);
+    }
+
+    function handleNotification(notification: Notification) {
+        const { title, body } = notification.request.content;
+        // Alert.alert(title, body);
+    }
+
+    function sendAlertPriceNotification(symbol: string, price: number){
+        const tradeSymbol = watchlist[symbol];
+        if (tradeSymbol.alerts !== undefined){
+            tradeSymbol.alerts.map((alert) => {
+                // check if new price its greater than alert target price
+                // and send push notification
+                if( price >= alert.targetPrice ){
+                    scheduleNotification(
+                        `${symbol} Price Alert`,
+                        `${symbol} has reached your ${alert.targetPrice} price target`
+                    );
+                }
+            });
+        }
+    }
+
     function addPriceAlert(trade: string, targetPrice: number){
         setWatchlist((prevWatchlist) => {
             let newTrades = { ...prevWatchlist };
             if (newTrades[trade].alerts){
-                newTrades[trade].alerts?.push({targetPrice: targetPrice});
+                newTrades[trade].alerts = [...newTrades[trade].alerts, {targetPrice: targetPrice}];
             } else {
                 newTrades[trade].alerts = [{targetPrice: targetPrice}];
             }
             return newTrades;
         });
+    }
+
+    function removePriceAlert(trade: string, targetPrice: number){
+        setWatchlist((prevWatchlist) => {
+            let newTrades = { ...prevWatchlist };
+            if (newTrades[trade].alerts){
+                const filteredAlerts = newTrades[trade].alerts.filter((priceAlert) => priceAlert.targetPrice !== targetPrice);
+                newTrades[trade].alerts = filteredAlerts;
+            } else {
+                newTrades[trade].alerts = [{targetPrice: targetPrice}];
+            }
+            return newTrades;
+        });
+    }
+
+    function handleReceiveNotifications(){
+        setReceiveNotifications(!receiveNotifications);
     }
 
     function handleTradeChange(event: MessageEvent){
@@ -84,8 +157,18 @@ export const AppProvider = ({
                         newTrades[s] = { price: p, previousClose: p, chartData: [{value: p}] };
                     } else {
                         newTrades[s].price = p;
-                        newTrades[s].chartData.push({value: p});
+                        // optimize size of chartData array with slice, the array must not
+                        // exceed 100 elements
+                        if (newTrades[s].chartData.length > maxChartDataLength){
+                            // alternate number of slices to execute useEffect hook in chart component
+                            newTrades[s].chartData = [...newTrades[s].chartData.slice(Math.random() > 0.5 ? 1 : 2), {value: p}];
+                        } else {
+                            newTrades[s].chartData = [...newTrades[s].chartData, {value: p}];
+                        }
                     }
+                    // check if the new price at a symbol meets the price target set by the user
+                    // and send local notification
+                    sendAlertPriceNotification(s,p);
                 });
                 return newTrades;
             });
@@ -95,8 +178,10 @@ export const AppProvider = ({
     const ret = {
         isReady: isReady, 
         watchlist: watchlist, 
-        send: ws.current?.send.bind(ws.current),
-        addPriceAlert: addPriceAlert
+        addPriceAlert: addPriceAlert,
+        removePriceAlert: removePriceAlert,
+        receiveNotifications: receiveNotifications,
+        handleReceiveNotifications: handleReceiveNotifications
     };
 
   return (

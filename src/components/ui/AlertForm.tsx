@@ -25,12 +25,12 @@ function AlertForm(){
 
     return (
         <Form
-            ai="center" 
-            gap="$4"
+            ai='center' 
+            gap='$4'
             borderWidth={1}
-            borderColor="$gray10Light"
-            borderRadius="$4"
-            padding="$3"
+            borderColor='$gray10Light'
+            borderRadius='$4'
+            padding='$3'
             minWidth={300}
             onSubmit={handleSubmit}
         >
@@ -53,7 +53,7 @@ function AlertForm(){
             }
             <Form.Trigger asChild disabled={price === ''}>
                 <Button
-                    width="100%">
+                    width='100%'>
                     Create
                 </Button>
             </Form.Trigger>

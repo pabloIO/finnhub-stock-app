@@ -85,6 +85,9 @@ android {
 
     namespace 'com.pabloio.finnhubapp'
     defaultConfig {
+// @generated begin react-native-auth0-manifest-placeholder - expo prebuild (DO NOT MODIFY) sync-4e5061a8c944399b0242330e638f24958eba660f
+manifestPlaceholders = [auth0Domain: "dev-dvns8ddirp5zn4ni.us.auth0.com", auth0Scheme: "com.pabloio.finnhubapp.auth0"]
+// @generated end react-native-auth0-manifest-placeholder
         applicationId 'com.pabloio.finnhubapp'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion

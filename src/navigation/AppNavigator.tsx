@@ -6,19 +6,15 @@ import * as Font from 'expo-font';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { AppProvider } from '@context/app-context';
 import type { HomeTabParamList } from '@models/navigation';
-import { View, Text, Theme } from 'tamagui';
 import AlertsScreen from '@components/screens/AlertsScreen';
 import WatchlistScreen from '@components/screens/WatchlistScreen';
 import ChartScreen from '@components/screens/ChartScreen';
+import AccountScreen from '@components/screens/AccountScreen';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
-
-function SimpleView() {
-  return <View><Text>Hola</Text></View>;
-}
 
 export default function AppNavigator() {
   const [appIsReady, setAppIsReady] = useState<boolean>(false);
@@ -53,7 +49,6 @@ export default function AppNavigator() {
     return null;
   }
   return (
-    <Theme>
       <AppProvider>
       <NavigationContainer onReady={onLayoutRootView}>
         <Tab.Navigator
@@ -74,7 +69,7 @@ export default function AppNavigator() {
           <Tab.Screen
             name='StockAlerts'
             options={{ 
-              tabBarLabel: 'Alerts',
+              tabBarLabel: 'Price alerts',
               tabBarIcon: ({ color, size }) => (
                 <Ionicons name="notifications" color={color} size={size} />
               )
@@ -82,18 +77,27 @@ export default function AppNavigator() {
             component={AlertsScreen}
           />
           <Tab.Screen
-            name='FinancialChart'
+            name='Charts'
             options={{ 
-              tabBarLabel: 'Chart',
+              tabBarLabel: 'Charts',
               tabBarIcon: ({ color, size }) => (
                 <Ionicons name="bar-chart" color={color} size={size} />
               ) 
             }}
             component={ChartScreen}
           />
+          <Tab.Screen
+            name='Account'
+            options={{ 
+              tabBarLabel: 'Account',
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="person" color={color} size={size} />
+              ) 
+            }}
+            component={AccountScreen}
+          />
         </Tab.Navigator>
       </NavigationContainer>
       </AppProvider>
-    </Theme>
   );
 }

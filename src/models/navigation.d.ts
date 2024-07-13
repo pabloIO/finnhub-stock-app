@@ -4,5 +4,6 @@ import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 export type HomeTabParamList = {
     Watchlist: undefined;
     StockAlerts: undefined;
-    FinancialChart: undefined;
+    Charts: undefined;
+    Account: undefined;
 };

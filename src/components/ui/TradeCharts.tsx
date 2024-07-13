@@ -1,7 +1,7 @@
-import { ScrollView, XStack, YStack } from "tamagui";
+import { H3, ScrollView, XStack, YStack } from "tamagui";
 import { useAppContext } from "src/context/app-context";
 import TradeChart from "./TradeChart";
-
+import { useEffect, useState } from "react";
 
 function TradeCharts(){
     

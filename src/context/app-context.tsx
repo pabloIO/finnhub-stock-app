@@ -95,13 +95,12 @@ export const AppProvider = ({ children }: AppProviderProps) => {
 
     function sendAlertPriceNotification(symbol: string, price: number){
         const tradeSymbol = watchlist[symbol];
-        // check receiveNotifications setting is true and exist an array 
-        // of alerts
-        if (tradeSymbol.alerts !== undefined && receiveNotifications){
+        // check alerts array exists  
+        if (tradeSymbol.alerts !== undefined){
             tradeSymbol.alerts.map((alert) => {
                 // check if new price its greater than alert target price
-                // and send push notification
-                if( price >= alert.targetPrice ){
+                // and receive notifications is true
+                if( price >= alert.targetPrice && receiveNotifications){
                     scheduleNotification(
                         `${symbol} Price Alert`,
                         `${symbol} has reached your ${alert.targetPrice} price target`

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Text, Button, ListItem, YGroup, XStack, YStack } from 'tamagui';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useAppContext } from '@context/app-context';
@@ -43,4 +44,4 @@ function AlertItems({trade, alerts}: AlertItemsProps){
     )
 }
 
-export default AlertItems;
+export default memo(AlertItems);

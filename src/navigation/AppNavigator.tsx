@@ -1,79 +1,99 @@
-import React from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { View, Text, Theme } from 'tamagui';
-
+import * as SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { AppProvider } from '@context/app-context';
 import type { HomeTabParamList } from '@models/navigation';
+import { View, Text, Theme } from 'tamagui';
+import AlertsScreen from '@components/screens/AlertsScreen';
+import WatchlistScreen from '@components/screens/WatchlistScreen';
+import ChartScreen from '@components/screens/ChartScreen';
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
-
-// function screenOptions(route: any) {
-//   return {
-//     tabBarActiveTintColor: '#C41848',
-//     tabBarInactiveTintColor: '#8a8a92',
-//     tabBarIcon: ({ focused, color }: { focused: boolean; color: string;}) => {
-//       let component;
-//       if (route.name === 'risk-sensor-tab') {
-//         component = (
-//           <Image
-//             source={
-//               focused
-//                 ? require('../assets/images/__sensor-icon-blue-complete-red.png')
-//                 : require('../assets/images/__sensor-icon-grey.png')
-//             }
-//             style={dimensions.icon}
-//           />
-//         );
-//       } else if (route.name === 'map-tab') {
-//         component = (
-//           <Image
-//             source={
-//               focused
-//                 ? require('../assets/images/__sensor-map-blue-complete-red.png')
-//                 : require('../assets/images/__sensor-map-grey.png')
-//             }
-//             style={dimensions.icon}
-//           />
-//         );
-//       } else if (route.name === 'chat-tab') {
-//         component = <Icon name="chatbubble-outline" type="ionicon" size={25} color={color} />;
-//       } else if (route.name === 'reports-tab') {
-//         component = <Icon name="megaphone" type="entypo" size={25} color={color} />;
-//       } else if (route.name === 'settings-tab') {
-//         component = <Icon name="settings" type="feather" size={25} color={color} />;
-//       }
-//       return component;
-//     },
-//   };
-// }
 
 function SimpleView() {
   return <View><Text>Hola</Text></View>;
 }
 
 export default function AppNavigator() {
+  const [appIsReady, setAppIsReady] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Pre-load fonts, make any API calls you need to do here
+        await Font.loadAsync({
+          'Inter': require('@assets/fonts/Inter.ttf'),
+          'InterBold': require('@assets/fonts/InterBold.ttf'),
+        });
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // hide splash screen immediately
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
   return (
-    // <Tab.Navigator screenOptions={({ route }) => screenOptions(route)}>
     <Theme>
-      <NavigationContainer>
-        <Tab.Navigator>
+      <AppProvider>
+      <NavigationContainer onReady={onLayoutRootView}>
+        <Tab.Navigator
+          initialRouteName="Watchlist"
+          screenOptions={{
+            tabBarActiveTintColor: '#e91e63',
+          }}>
           <Tab.Screen
             name='Watchlist'
-            options={{ tabBarLabel: 'Stocks' }}
-            component={SimpleView}
+            options={{ 
+              tabBarLabel: 'Stocks', 
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="home" color={color} size={size} />
+              )
+            }}
+            component={WatchlistScreen}
           />
           <Tab.Screen
             name='StockAlerts'
-            options={{ tabBarLabel: 'Stock alerts' }}
-            component={SimpleView}
+            options={{ 
+              tabBarLabel: 'Alerts',
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="notifications" color={color} size={size} />
+              )
+             }}
+            component={AlertsScreen}
           />
           <Tab.Screen
             name='FinancialChart'
-            options={{ tabBarLabel: 'Chart' }}
-            component={SimpleView}
+            options={{ 
+              tabBarLabel: 'Chart',
+              tabBarIcon: ({ color, size }) => (
+                <Ionicons name="bar-chart" color={color} size={size} />
+              ) 
+            }}
+            component={ChartScreen}
           />
         </Tab.Navigator>
       </NavigationContainer>
+      </AppProvider>
     </Theme>
   );
 }

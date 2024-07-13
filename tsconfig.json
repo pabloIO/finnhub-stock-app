@@ -9,8 +9,11 @@
       "@components/*": ["./src/components/*"],
       "@api/*": ["./src/api/*"],
       "@navigation/*": ["./src/navigation/*"],
-      "@assets/*": ["./assets/*"],
-      "@models/*": ["./src/models/*"]
+      "@models/*": ["./src/models/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@context/*": ["./src/context/*"],
+      "@data/*": ["./src/data/*"],
+      "@assets/*": ["./assets/*"]
     }
   }
 }

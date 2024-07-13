@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Label, Form, XStack, Button, H3, Paragraph } from 'tamagui';
 import AlertSelector from './AlertSelector';
 import AlertInput from './AlertInput';
-import { useAppContext } from 'src/context/app-context';
+import { useAppContext } from '@context/app-context';
 
 function AlertForm(){
     const [trade, setTrade] = useState<string>('APPL');

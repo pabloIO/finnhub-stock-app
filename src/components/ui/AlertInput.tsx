@@ -1,4 +1,4 @@
-import { Input, XStack } from 'tamagui';
+import { Input } from 'tamagui';
 import type { Dispatch, SetStateAction } from 'react';
 
 type AlertInputProps = {

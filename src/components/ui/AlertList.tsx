@@ -1,7 +1,6 @@
-import { useAppContext } from "@context/app-context";
-import { H5, ListItem, Separator, XStack, YGroup } from 'tamagui';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import AlertItems from "./AlertItems";
+import { useAppContext } from '@context/app-context';
+import { YGroup } from 'tamagui';
+import AlertItems from './AlertItems';
 
 
 function AlertList() {
@@ -9,7 +8,7 @@ function AlertList() {
     const { watchlist } = useAppContext();
 
     return (
-      <YGroup alignSelf="center" bordered width={'100%'} size="$4" marginTop='$2'>
+      <YGroup alignSelf='center' bordered width={'100%'} size='$4' marginTop='$2'>
         {
             Object.keys(watchlist).map((trade, index) => (
                 <AlertItems 

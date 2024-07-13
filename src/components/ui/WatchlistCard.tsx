@@ -39,7 +39,7 @@ function WatchlistCard(props : WatchlistCardProps){
         </Card.Header>
         { isTrading && 
           <Card.Footer padded>
-            <XStack flex={1} alignSelf="center" >
+            <XStack flex={1} alignSelf='center' >
               <Ionicons 
                 style={{padding: 5}}
                 size={20}

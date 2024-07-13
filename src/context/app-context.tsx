@@ -3,7 +3,6 @@ import type { ReactNode } from 'react';
 import { initialWatchlist, symbolsToSubscribe } from '@data/watchlist';
 import type { Stocks } from '@models/watchlist';
 import * as Notifications from 'expo-notifications';
-import type { Notification } from 'expo-notifications';
 
 type AppProviderProps = {
     children: ReactNode;
@@ -31,9 +30,10 @@ export function useAppContext() {
 
 export const AppContext = createContext<AppContextValue | null>(null);
 
-export const AppProvider = ({ 
-    children 
-}: AppProviderProps) => {
+const FINNHUB_WSS_URL = 'wss://ws.finnhub.io';
+const FINNHUB_WSS_API_KEY = 'cq84o09r01qr5j08ml4gcq84o09r01qr5j08ml50';
+
+export const AppProvider = ({ children }: AppProviderProps) => {
 
     const [isReady, setIsReady] = useState<boolean>(false);
     const [receiveNotifications, setReceiveNotifications] = useState<boolean>(false);
@@ -41,10 +41,9 @@ export const AppProvider = ({
     const maxChartDataLength: number = 99;
 
     const ws = useRef<WebSocket | null>(null);
-    // const wsUrl = 
-    //     `${process.env.EXPO_PUBLIC_FINNHUB_WSS_URL}?token=${process.env.EXPO_PUBLIC_FINNHUB_API_KEY}`;
     const wsUrl = 
-        `${'wss://ws.finnhub.io'}?token=${'cq84o09r01qr5j08ml4gcq84o09r01qr5j08ml50'}`;
+        `${FINNHUB_WSS_URL}?token=${FINNHUB_WSS_API_KEY}`;
+
     useEffect(() => {
         const socket = new WebSocket(wsUrl);
 
@@ -71,8 +70,6 @@ export const AppProvider = ({
     useEffect(() => {
         if(receiveNotifications){
            requestNotificationPermissionsasync();
-            const listener = Notifications.addNotificationReceivedListener(handleNotification);
-            return () => listener.remove();
         }
     }, [receiveNotifications])
 
@@ -96,14 +93,11 @@ export const AppProvider = ({
         Notifications.scheduleNotificationAsync(schedulingOptions);
     }
 
-    function handleNotification(notification: Notification) {
-        const { title, body } = notification.request.content;
-        // Alert.alert(title, body);
-    }
-
     function sendAlertPriceNotification(symbol: string, price: number){
         const tradeSymbol = watchlist[symbol];
-        if (tradeSymbol.alerts !== undefined){
+        // check receiveNotifications setting is true and exist an array 
+        // of alerts
+        if (tradeSymbol.alerts !== undefined && receiveNotifications){
             tradeSymbol.alerts.map((alert) => {
                 // check if new price its greater than alert target price
                 // and send push notification

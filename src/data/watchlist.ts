@@ -1,4 +1,4 @@
-import type { Stocks } from "@models/watchlist";
+import type { Stocks } from '@models/watchlist';
 
 // THE PREVIOUS CLOSING AND OPENING PRICES ARE TAKEN FROM YAHOO FINANCE
 // ON DATE 13th JULY

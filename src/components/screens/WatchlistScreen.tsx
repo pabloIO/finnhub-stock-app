@@ -1,6 +1,6 @@
-import { useAppContext } from "@context/app-context";
-import WatchlistCards from "@components/ui/WatchlistCards";
-import Loader from "@components/ui/Loader";
+import { useAppContext } from '@context/app-context';
+import WatchlistCards from '@components/ui/WatchlistCards';
+import Loader from '@components/ui/Loader';
 
 function WatchlistScreen(){
 

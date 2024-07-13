@@ -1,7 +1,6 @@
-import { H3, ScrollView, XStack, YStack } from "tamagui";
-import { useAppContext } from "src/context/app-context";
-import TradeChart from "./TradeChart";
-import { useEffect, useState } from "react";
+import { ScrollView} from 'tamagui';
+import { useAppContext } from '@context/app-context';
+import TradeChart from './TradeChart';
 
 function TradeCharts(){
     
@@ -9,8 +8,8 @@ function TradeCharts(){
 
     return (
         <ScrollView
-            width="100%"
-            backgroundColor="$background"
+            width='100%'
+            backgroundColor='$background'
             >
             {
                 Object.keys(watchlist).map((symbol) => (

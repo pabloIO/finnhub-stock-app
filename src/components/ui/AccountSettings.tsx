@@ -1,7 +1,7 @@
 import { Switch, ListItem, YGroup, View, YStack, H3, XStack, Text } from 'tamagui';
 import { useAuth0 } from 'react-native-auth0';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useAppContext } from 'src/context/app-context';
+import { useAppContext } from '@context/app-context';
 
 function AccountSettings(){
 

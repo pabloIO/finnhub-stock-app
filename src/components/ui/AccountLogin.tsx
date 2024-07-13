@@ -32,8 +32,8 @@ function AccountLogin(){
             width={'100%'}
             padding='$4' 
             borderWidth={1}
-            borderColor="$gray10Light"
-            borderRadius="$4"
+            borderColor='$gray10Light'
+            borderRadius='$4'
             >
             <Avatar circular size='$12' marginVertical='$3'>
                 <Avatar.Image

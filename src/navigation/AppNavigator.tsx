@@ -52,7 +52,7 @@ export default function AppNavigator() {
       <AppProvider>
       <NavigationContainer onReady={onLayoutRootView}>
         <Tab.Navigator
-          initialRouteName="Watchlist"
+          initialRouteName='Watchlist'
           screenOptions={{
             tabBarActiveTintColor: '#e91e63',
           }}>
@@ -61,7 +61,7 @@ export default function AppNavigator() {
             options={{ 
               tabBarLabel: 'Stocks', 
               tabBarIcon: ({ color, size }) => (
-                <Ionicons name="home" color={color} size={size} />
+                <Ionicons name='home' color={color} size={size} />
               )
             }}
             component={WatchlistScreen}
@@ -71,7 +71,7 @@ export default function AppNavigator() {
             options={{ 
               tabBarLabel: 'Price alerts',
               tabBarIcon: ({ color, size }) => (
-                <Ionicons name="notifications" color={color} size={size} />
+                <Ionicons name='notifications' color={color} size={size} />
               )
              }}
             component={AlertsScreen}
@@ -81,7 +81,7 @@ export default function AppNavigator() {
             options={{ 
               tabBarLabel: 'Charts',
               tabBarIcon: ({ color, size }) => (
-                <Ionicons name="bar-chart" color={color} size={size} />
+                <Ionicons name='bar-chart' color={color} size={size} />
               ) 
             }}
             component={ChartScreen}
@@ -91,7 +91,7 @@ export default function AppNavigator() {
             options={{ 
               tabBarLabel: 'Account',
               tabBarIcon: ({ color, size }) => (
-                <Ionicons name="person" color={color} size={size} />
+                <Ionicons name='person' color={color} size={size} />
               ) 
             }}
             component={AccountScreen}

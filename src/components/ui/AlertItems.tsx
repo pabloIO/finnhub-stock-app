@@ -1,6 +1,6 @@
 import { Text, Button, ListItem, YGroup, XStack, YStack } from 'tamagui';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { useAppContext } from 'src/context/app-context';
+import { useAppContext } from '@context/app-context';
 
 type AlertItemsProps = {
     trade: string;

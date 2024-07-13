@@ -7,8 +7,8 @@ function AlertsScreen (){
     return (
         <ScrollView 
             padding='$2'
-            width="100%"
-            backgroundColor="$background">
+            width='100%'
+            backgroundColor='$background'>
             <AlertForm />
             <AlertList />
         </ScrollView>

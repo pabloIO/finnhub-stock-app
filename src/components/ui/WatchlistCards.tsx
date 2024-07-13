@@ -1,6 +1,6 @@
 import { ScrollView, XStack } from 'tamagui';
-import type { Stocks } from '@models/watchlist';
 import WatchlistCard from './WatchlistCard';
+import type { Stocks } from '@models/watchlist';
 
 type WatchlistProps = {
     watchlist: Stocks;
@@ -10,10 +10,10 @@ function WatchlistCards({ watchlist }: WatchlistProps){
 
   return (
     <ScrollView
-      width="100%"
-      backgroundColor="$background"
+      width='100%'
+      backgroundColor='$background'
     >
-      <XStack flexWrap="wrap" alignItems="center" justifyContent="center">
+      <XStack flexWrap='wrap' alignItems='center' justifyContent='center'>
          {Object.keys(watchlist).map((symbol) => (
             <WatchlistCard 
               key={symbol}

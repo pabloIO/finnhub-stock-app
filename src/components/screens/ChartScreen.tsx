@@ -1,4 +1,4 @@
-import TradeCharts from "@components/ui/TradeCharts";
+import TradeCharts from '@components/ui/TradeCharts';
 
 function ChartScreen(){
     

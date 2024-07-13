@@ -17,10 +17,10 @@ function AlertSelector(props: AlertSelectorProps) {
     return (
       <Select value={trade} onValueChange={setTrade} disablePreventBodyScroll {...props}>
         <Select.Trigger width={220} iconAfter={<Ionicons name='chevron-down'/>}>
-          <Select.Value placeholder="Down" />
+          <Select.Value placeholder='Down' />
         </Select.Trigger>
   
-        <Adapt when="sm" platform="touch">
+        <Adapt when='sm' platform='touch'>
           <Sheet
             native={!!props.native}
             modal
@@ -38,7 +38,7 @@ function AlertSelector(props: AlertSelectorProps) {
               </Sheet.ScrollView>
             </Sheet.Frame>
             <Sheet.Overlay
-              animation="lazy"
+              animation='lazy'
               enterStyle={{ opacity: 0 }}
               exitStyle={{ opacity: 0 }}
             />
@@ -60,7 +60,7 @@ function AlertSelector(props: AlertSelectorProps) {
                       value={item}
                     >
                       <Select.ItemText>{item}</Select.ItemText>
-                      <Select.ItemIndicator marginLeft="auto">
+                      <Select.ItemIndicator marginLeft='auto'>
                         <Ionicons name='checkmark-circle-outline' size={25} color='green' />
                       </Select.ItemIndicator>
                     </Select.Item>

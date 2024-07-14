@@ -8,7 +8,7 @@ export const initialWatchlist: Stocks = {
         previousClose: 195.05,
         chartData: [],
     },
-    'APPL': {
+    'AAPL': {
         price: 229.0,
         previousClose: 227.57,
         chartData: [],
@@ -48,7 +48,7 @@ export const initialWatchlist: Stocks = {
 
 // Symbols that will be tracked in the app
 export const symbolsToSubscribe: string[] = [
-    'APPL',
+    'AAPL',
     'AMZN',
     'MSFT',
     'TSLA',

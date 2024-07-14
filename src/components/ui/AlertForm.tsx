@@ -5,7 +5,7 @@ import AlertInput from './AlertInput';
 import { useAppContext } from '@context/app-context';
 
 function AlertForm(){
-    const [trade, setTrade] = useState<string>('APPL');
+    const [trade, setTrade] = useState<string>('AAPL');
     const [price, setPrice] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const { addPriceAlert, watchlist } = useAppContext();
@@ -41,7 +41,7 @@ function AlertForm(){
                 </Label>
                 <AlertSelector trade={trade} setTrade={setTrade} />
             </XStack>
-            <Paragraph size='$1'>Current price: {watchlist[trade].price}</Paragraph>
+            <Paragraph size='$1'>Current price: {watchlist[trade]?.price}</Paragraph>
             <XStack paddingHorizontal='$4'>
                 <Label f={1} miw={80}>
                     Target price

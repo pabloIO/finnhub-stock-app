@@ -14,14 +14,10 @@ function TradeChart({trade, chartData}: TradeChartProps){
     const ref = useRef(null);
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            setData([...chartData]);
-            if (ref.current) {
-                ref.current.scrollToEnd();
-            }
-        }, 100);
-
-        return () => clearTimeout(timeout);
+        setData([...chartData]);
+        if (ref.current) {
+            ref.current.scrollToEnd();
+        }
     }, [chartData.length]);
 
 
